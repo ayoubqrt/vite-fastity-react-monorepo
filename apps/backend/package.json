@@ -1,0 +1,16 @@
+{
+	"name": "backend",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build"
+	},
+	"devDependencies": {
+		"vite-plugin-node": "1.0.0"
+	},
+	"dependencies": {
+		"fastify": "4.11.0"
+	}
+}

@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
+		"rootDir": ".",
 		"esModuleInterop": true,
 		"exactOptionalPropertyTypes": true,
 		"forceConsistentCasingInFileNames": true,
@@ -20,12 +20,17 @@
 		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"paths": {},
 		"resolveJsonModule": true,
 		"skipDefaultLibCheck": true,
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ESNext",
-		"useUnknownInCatchVariables": true
-	}
+		"useUnknownInCatchVariables": true,
+		"sourceMap": true,
+		"baseUrl": ".",
+		"paths": {
+			"@customTypes": ["packages/types/src"]
+		}
+	},
+	"exclude": ["node_modules"]
 }

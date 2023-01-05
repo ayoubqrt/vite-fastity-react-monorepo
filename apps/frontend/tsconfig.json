@@ -4,10 +4,12 @@
 		"allowJs": false,
 		"useDefineForClassFields": true,
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"composite": true,
 		"module": "ESNext",
 		"moduleResolution": "Node",
-		"allowSyntheticDefaultImports": true
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"incremental": true
 	},
-	"include": ["src"]
+	"include": ["**/*.ts", "**/*.tsx"]
 }

@@ -11,6 +11,7 @@
 		"vite-plugin-node": "1.0.0"
 	},
 	"dependencies": {
+		"@fastify/cors": "8.2.0",
 		"fastify": "4.11.0"
 	}
 }

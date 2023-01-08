@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  frontend:
+    image: pnpm
+    working_dir: /app
+    command: pnpm --filter frontend run dev
+    build:
+      context: .
+      dockerfile: docker/pnpm.Dockerfile
+    env_file: apps/frontend/.env
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+    ports:
+      - 5173:5173
+    depends_on:
+      - backend
+  backend:
+    image: pnpm
+    working_dir: /app
+    command: pnpm --filter backend run dev
+    build:
+      context: .
+      dockerfile: docker/pnpm.Dockerfile
+    env_file: apps/backend/.env
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000

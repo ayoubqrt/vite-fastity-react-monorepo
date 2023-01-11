@@ -2,6 +2,7 @@ import { type FC, useEffect, useState } from "react";
 import type { AppSpecs } from "@customTypes";
 import { Typography } from "@mui/material";
 import "./App.css";
+import { useQuery } from "react-query";
 
 type Props = {
 	name?: string;
@@ -11,33 +12,31 @@ export const App: FC<Props> = (props) => {
 	const { name } = props;
 
 	const [count, setCount] = useState(0);
-	const [appSpecs, setAppSpecs] = useState<AppSpecs | null>();
+	const {
+		isLoading,
+		error,
+		data: appSpecs,
+	} = useQuery<AppSpecs>("appSpecs", () =>
+		fetch("http://localhost:3000/appSpecs").then((res) => res.json())
+	);
 
 	const handleClick = () => {
 		setCount((count) => count + 1);
 	};
 
-	// Ne pas reproduire cette partie, il faut utiliser react-query
-	// pour faire du data fetching
-	useEffect(() => {
-		fetch("http://localhost:3000/appSpecs")
-			.then((res) => res.json())
-			.then((res: AppSpecs) => {
-				setAppSpecs(res);
-			});
-	}, []);
+	if (isLoading || !appSpecs) {
+		return <Typography variant="h3">Fetching to backend...</Typography>;
+	}
 
-	const landingPageText = appSpecs ? (
-		<Typography variant="h3">
-			Hello {appSpecs.name}, Version : {appSpecs.id} (info from backend)
-		</Typography>
-	) : (
-		<Typography variant="h3">Fetching to backend...</Typography>
-	);
+	if (error) {
+		return <Typography variant="h3">Error fetching to backend...</Typography>;
+	}
 
 	return (
 		<div className="App">
-			{landingPageText}
+			<Typography variant="h3">
+				Hello {appSpecs.name}, Version : {appSpecs.id} (info from backend)
+			</Typography>{" "}
 			<div className="card">
 				<button onClick={handleClick}>count is {count}</button>
 			</div>

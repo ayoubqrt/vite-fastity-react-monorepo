@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import type { AppSpecs } from "@customTypes";
 import { Typography } from "@mui/material";
 import "./App.css";

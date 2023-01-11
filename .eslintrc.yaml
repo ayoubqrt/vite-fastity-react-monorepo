@@ -12,4 +12,19 @@ parserOptions:
 plugins:
   - "@typescript-eslint"
 rules:
-  semi: error
+  semi:
+    - error
+    - always
+  quotes:
+    - error
+    - double
+  linebreak-style:
+    - error
+    - unix
+  indent:
+    - error
+    - tab
+  func-style:
+    - error
+    - declaration
+    - allowArrowFunctions: true

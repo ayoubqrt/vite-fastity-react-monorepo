@@ -9,3 +9,5 @@ plugins:
 settings:
   react:
     version: detect
+rules:
+  react/no-array-index-key: error

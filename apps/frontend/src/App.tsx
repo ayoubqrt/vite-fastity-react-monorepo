@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import type { AppSpecs } from "@customTypes";
+import { Typography } from "@mui/material";
 import "./App.css";
 
 type Props = {
@@ -12,7 +13,7 @@ export const App: FC<Props> = (props) => {
 	const [count, setCount] = useState(0);
 	const [appSpecs, setAppSpecs] = useState<AppSpecs | null>();
 
-	const hsandleClick = () => {
+	const handleClick = () => {
 		setCount((count) => count + 1);
 	};
 
@@ -26,16 +27,19 @@ export const App: FC<Props> = (props) => {
 			});
 	}, []);
 
+	const landingPageText = appSpecs ? (
+		<Typography variant="h3">
+			Hello {appSpecs.name}, Version : {appSpecs.id} (info from backend)
+		</Typography>
+	) : (
+		<Typography variant="h3">Fetching to backend...</Typography>
+	);
+
 	return (
 		<div className="App">
-			{}
-			{appSpecs && (
-				<h1>
-					Hello {appSpecs.name}, Version : {appSpecs.id}
-				</h1>
-			)}
+			{landingPageText}
 			<div className="card">
-				<button onClick={hsandleClick}>count is {count}</button>
+				<button onClick={handleClick}>count is {count}</button>
 			</div>
 		</div>
 	);

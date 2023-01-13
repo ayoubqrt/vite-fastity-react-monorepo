@@ -9,6 +9,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.48.0
       '@typescript-eslint/parser': ^5.48.0
       '@vitejs/plugin-react': ^3.0.0
+      env-var: 7.3.0
       eslint: ^8.31.0
       eslint-plugin-jsx-a11y: ^6.6.1
       eslint-plugin-react: ^7.31.11
@@ -28,6 +29,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.48.0_k73wpmdolxikpyqun3p36akaaq
       '@typescript-eslint/parser': 5.48.0_iukboom6ndih5an6iafl45j2fe
       '@vitejs/plugin-react': 3.0.0_vite@4.0.4
+      env-var: 7.3.0
       eslint: 8.31.0
       eslint-plugin-jsx-a11y: 6.6.1_eslint@8.31.0
       eslint-plugin-react: 7.31.11_eslint@8.31.0
@@ -635,7 +637,7 @@ packages:
     resolution: {integrity: sha512-ebbEtlI7dxXF5ziNdr05mOY8NnDiPB1XvAlLHctRt/Rc+C3LCOVW5imUVX+mhvUhnNzmPBHewUkOFgGlCxgdAA==}
     dependencies:
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.12.0
       fast-uri: 2.2.0
 
   /@fastify/cors/8.2.0:
@@ -1104,8 +1106,10 @@ packages:
     hasBin: true
     dev: true
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.12.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -1509,6 +1513,11 @@ packages:
       once: 1.4.0
     dev: true
 
+  /env-var/7.3.0:
+    resolution: {integrity: sha512-qwtwYJ9d3XFxXRDudPEAMszaggpDgcfb1ZGYb9/cNyMugN2/a8EtviopnRL6c+petj2vp6/gxwYd9ExL1/iPcw==}
+    engines: {node: '>=10'}
+    dev: true
+
   /error-ex/1.3.2:
     resolution: {integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==}
     dependencies:
@@ -1822,7 +1831,7 @@ packages:
     dependencies:
       '@fastify/deepmerge': 1.3.0
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.12.0
       fast-deep-equal: 3.1.3
       fast-uri: 2.2.0
       rfdc: 1.3.0

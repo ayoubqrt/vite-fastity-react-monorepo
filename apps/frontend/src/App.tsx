@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from "react";
+import { type FC, useState } from "react";
 import type { AppSpecs } from "@customTypes";
 import { Typography } from "@mui/material";
 import "./App.css";
@@ -10,6 +10,7 @@ type Props = {
 
 export const App: FC<Props> = (props) => {
 	const { name } = props;
+	console.log(name);
 
 	const [count, setCount] = useState(0);
 	const {

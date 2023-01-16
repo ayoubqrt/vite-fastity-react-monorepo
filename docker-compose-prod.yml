@@ -1,42 +1,19 @@
 version: "3"
 name: "Neighbook"
 services:
-  frontend:
-    image: pnpm
-    working_dir: /app
-    command: pnpm --filter frontend run build
-    build:
-      context: .
-      dockerfile: docker/pnpm.Dockerfile
-    env_file: apps/frontend/.env
-    environment:
-      - NODE_ENV=development
-    volumes:
-      - .:/app
-    ports:
-      - 5173:5173
-    depends_on:
-      - backend
   backend:
-    image: pnpm
-    working_dir: /app
-    command: pnpm --filter backend run build
+    command: pnpm --filter backend run start
     build:
       context: .
-      dockerfile: docker/pnpm.Dockerfile
-    env_file: apps/backend/.env
+      dockerfile: apps/backend/Dockerfile
     environment:
-      - NODE_ENV=development
-    links:
-      - "backendDB:backendDB"
-    volumes:
-      - .:/app
+      - NODE_ENV=production
     ports:
       - 3000:3000
-  backendDB:
-    image: redis
-    container_name: backendDB
-    ports:
-      - 6379:6379
-    volumes:
-      - .:/app
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: neighbook_default

@@ -2,44 +2,20 @@ FROM node:18.12.0-alpine as base
 
 RUN corepack enable
 
-FROM base as build
-
-RUN apk add --no-cache python3 make g++ git
-
-ARG PROJECT_NAME
-
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc tsconfig.base.json ./
+COPY apps/backend/package.json ./apps/backend/package.json
+COPY apps/frontend/package.json ./apps/frontend/package.json
+
 
 RUN pnpm install --unsafe-perm --frozen-lockfile
 
-COPY tsconfig.base.json ./
 COPY apps ./apps
+COPY packages ./packages
 
-RUN pnpm run --filter backend build
+RUN pnpm --filter apps/backend run build
 
-FROM base as production-dependencies
+EXPOSE 3000
 
-ARG PROJECT_NAME
-ARG PROJECT_PATH
-
-WORKDIR /app
-
-COPY --from=build /app/dist/backend/package.json ./
-COPY --from=build /app/.npmrc /app/pnpm-lock.yaml ./
-
-RUN pnpm install --production --unsafe-perm --ignore-scripts
-
-FROM node:18.12.0-alpine as application
-
-ARG COMMAND
-
-WORKDIR /app
-
-COPY --from=build --chown=node /app/dist/backend/ ./
-COPY --from=production-dependencies --chown=node /app/node_modules ./node_modules
-
-USER node
-
-CMD node --enable-source-maps main.cjs
+ENTRYPOINT ["pnpm", "--filter", "backend", "run", "start"]

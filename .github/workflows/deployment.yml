@@ -1,0 +1,95 @@
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**.md"
+      - "**.*ignore"
+      - "**.env*"
+      - renovate.json
+      - docker-compose.yaml
+      - "**integration.yaml"
+
+jobs:
+  deployment:
+    runs-on: ubuntu-22.04
+
+    permissions: read-all
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Read .nvmrc
+        run: echo "##[set-output name=version;]$(cat .nvmrc)"
+        id: nvm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+
+      # - name: Set Nx SHAs
+      #   uses: nrwl/nx-set-shas@v3
+      #   with:
+      #     main-branch-name: master
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ matrix.project }}-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-buildx-${{ matrix.project }}-
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvm.outputs.version }}
+          cache: pnpm
+
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: azure/docker-login@v1
+        with:
+          login-server: contoso.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          docker build . -t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+          docker push contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+
+      - name: "Deploy to Azure Container Instances"
+        uses: "azure/aci-deploy@v1"
+        with:
+          resource-group: contoso
+          dns-name-label: url-for-container
+          image: contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+          cpu: 1 #Optional
+          memory: 0.1 #Optional
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          name: neighbook
+          location: "france central"
+
+      - name: Install dependencies
+        run: pnpm install --ignore-scripts --frozen-lockfile
+
+      - name: Build Docker images of affected projects
+        run: pnpm affected:docker --configuration=production
+
+      - name: Deploy affected projects
+        run: pnpm affected:deploy
+
+      - name: Move Docker cache if it exists
+        run: |
+          [ -d /tmp/.buildx-cache ] && rm -rf /tmp/.buildx-cache || true
+          [ -d /tmp/.buildx-cache-new ] && mv /tmp/.buildx-cache-new /tmp/.buildx-cache || true

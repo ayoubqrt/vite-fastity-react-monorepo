@@ -1,0 +1,19 @@
+version: "3"
+name: "Neighbook"
+services:
+  backend:
+    command: pnpm --filter backend run start
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 3000:3000
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: neighbook_default

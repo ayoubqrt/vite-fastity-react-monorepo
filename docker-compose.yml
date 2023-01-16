@@ -27,7 +27,17 @@ services:
     env_file: apps/backend/.env
     environment:
       - NODE_ENV=development
+      - DB_SERVER=kanban-postgres
+    links:
+      - "backendDB:backendDB"
     volumes:
       - .:/app
     ports:
       - 3000:3000
+  backendDB:
+    image: redis
+    container_name: backendDB
+    ports:
+      - 6379:6379
+    volumes:
+      - .:/app

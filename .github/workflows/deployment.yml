@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - "**.md"
       - "**.*ignore"
@@ -28,6 +28,8 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.2.4
+        with:
+          version: latest
 
       # - name: Set Nx SHAs
       #   uses: nrwl/nx-set-shas@v3
@@ -60,36 +62,30 @@ jobs:
 
       - uses: azure/docker-login@v1
         with:
-          login-server: contoso.azurecr.io
+          login-server: acrutbm.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build . -t contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
-          docker push contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
+          pnpm --filter backend run docker:build
 
       - name: "Deploy to Azure Container Instances"
         uses: "azure/aci-deploy@v1"
         with:
-          resource-group: contoso
-          dns-name-label: url-for-container
-          image: contoso.azurecr.io/nodejssampleapp:${{ github.sha }}
-          cpu: 1 #Optional
-          memory: 0.1 #Optional
+          resource-group: acr
+          dns-name-label: acrutbm.azurecr.io
+          image: neighbook_backend
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: neighbook
+          name: neighbook_backend
           location: "france central"
 
-      - name: Install dependencies
-        run: pnpm install --ignore-scripts --frozen-lockfile
+      # - name: Build Docker images of affected projects
+      #   run: pnpm affected:docker --configuration=production
 
-      - name: Build Docker images of affected projects
-        run: pnpm affected:docker --configuration=production
+      # - name: Deploy affected projects
+      #   run: pnpm affected:deploy
 
-      - name: Deploy affected projects
-        run: pnpm affected:deploy
-
-      - name: Move Docker cache if it exists
-        run: |
-          [ -d /tmp/.buildx-cache ] && rm -rf /tmp/.buildx-cache || true
-          [ -d /tmp/.buildx-cache-new ] && mv /tmp/.buildx-cache-new /tmp/.buildx-cache || true
+      # - name: Move Docker cache if it exists
+      #   run: |
+      #     [ -d /tmp/.buildx-cache ] && rm -rf /tmp/.buildx-cache || true
+      #     [ -d /tmp/.buildx-cache-new ] && mv /tmp/.buildx-cache-new /tmp/.buildx-cache || true

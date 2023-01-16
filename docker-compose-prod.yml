@@ -4,7 +4,7 @@ services:
   frontend:
     image: pnpm
     working_dir: /app
-    command: pnpm --filter frontend run dev
+    command: pnpm --filter frontend run build
     build:
       context: .
       dockerfile: docker/pnpm.Dockerfile
@@ -20,14 +20,13 @@ services:
   backend:
     image: pnpm
     working_dir: /app
-    command: pnpm --filter backend run dev
+    command: pnpm --filter backend run build
     build:
       context: .
       dockerfile: docker/pnpm.Dockerfile
     env_file: apps/backend/.env
     environment:
       - NODE_ENV=development
-      - DB_SERVER=kanban-postgres
     links:
       - "backendDB:backendDB"
     volumes:

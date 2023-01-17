@@ -66,17 +66,17 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          pnpm --filter backend run docker:build
+          pnpm --filter marketplace run docker:build
 
       - name: "Deploy to Azure Container Instances"
         uses: "azure/aci-deploy@v1"
         with:
           resource-group: acr
           dns-name-label: acrutbm.azurecr.io
-          image: neighbook_backend
+          image: neighbook_marketplace
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: neighbook_backend
+          name: neighbook_marketplace
           location: "france central"
 
       # - name: Build Docker images of affected projects

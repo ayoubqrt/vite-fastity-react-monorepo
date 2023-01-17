@@ -15,11 +15,11 @@ services:
     ports:
       - 5173:5173
     depends_on:
-      - backend
-  backend:
+      - marketplace
+  marketplace:
     image: pnpm
     working_dir: /app
-    command: pnpm --filter backend run dev
+    command: pnpm --filter marketplace run dev
     build:
       context: .
       dockerfile: docker/pnpm.Dockerfile
@@ -28,4 +28,4 @@ services:
     volumes:
       - .:/app
     ports:
-      - 3000:3000
+      - 3002:3002

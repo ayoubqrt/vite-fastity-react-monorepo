@@ -1,12 +1,12 @@
 version: "3"
 name: "Neighbook"
 services:
-  backend:
-    command: pnpm --filter backend run start
+  marketplace:
+    command: pnpm --filter marketplace run start
     build:
       context: .
-      dockerfile: apps/backend/Dockerfile
+      dockerfile: apps/marketplace/Dockerfile
     environment:
       - NODE_ENV=production
     ports:
-      - 3000:3000
+      - 3002:3002

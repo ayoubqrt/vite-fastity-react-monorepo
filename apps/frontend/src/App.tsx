@@ -18,7 +18,7 @@ export const App: FC<Props> = (props) => {
 		error,
 		data: appSpecs,
 	} = useQuery<AppSpecs>("appSpecs", () =>
-		fetch("http://localhost:3000/appSpecs").then((res) => res.json())
+		fetch("http://localhost:3002/appSpecs").then((res) => res.json())
 	);
 
 	const handleClick = () => {

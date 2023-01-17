@@ -5,7 +5,7 @@ RUN corepack enable
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc tsconfig.base.json ./
-COPY apps/backend/package.json ./apps/backend/package.json
+COPY apps/marketplace/package.json ./apps/marketplace/package.json
 COPY apps/frontend/package.json ./apps/frontend/package.json
 
 RUN pnpm install --unsafe-perm --frozen-lockfile
@@ -13,8 +13,8 @@ RUN pnpm install --unsafe-perm --frozen-lockfile
 COPY apps ./apps
 COPY packages ./packages
 
-RUN pnpm --filter backend run build
+RUN pnpm --filter marketplace run build
 
-EXPOSE 3000
+EXPOSE 3002
 
-ENTRYPOINT ["pnpm", "--filter", "backend", "run", "start"]
+ENTRYPOINT ["pnpm", "--filter", "marketplace", "run", "start"]

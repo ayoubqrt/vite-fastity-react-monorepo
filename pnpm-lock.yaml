@@ -39,7 +39,20 @@ importers:
       typescript: 4.9.4
       vite: 4.0.4
 
-  apps/backend:
+  apps/auth:
+    specifiers:
+      '@fastify/cors': 8.2.0
+      '@types/node': 18.11.18
+      fastify: 4.11.0
+      vite-plugin-node: 3.0.2
+    dependencies:
+      '@fastify/cors': 8.2.0
+      '@types/node': 18.11.18
+      fastify: 4.11.0
+    devDependencies:
+      vite-plugin-node: 3.0.2_vite@4.0.4
+
+  apps/chat:
     specifiers:
       '@fastify/cors': 8.2.0
       '@types/node': 18.11.18
@@ -63,6 +76,19 @@ importers:
       '@emotion/styled': 11.10.5_yxf5y5ke3m4nev7p7don7kkk4i
       '@mui/material': 5.11.3_5rzy53przelm5jchjmb5vr6dxy
       react-query: 3.39.2_biqbaboplfbrettd7655fr4n2y
+
+  apps/marketplace:
+    specifiers:
+      '@fastify/cors': 8.2.0
+      '@types/node': 18.11.18
+      fastify: 4.11.0
+      vite-plugin-node: 3.0.2
+    dependencies:
+      '@fastify/cors': 8.2.0
+      '@types/node': 18.11.18
+      fastify: 4.11.0
+    devDependencies:
+      vite-plugin-node: 3.0.2_vite@4.0.4
 
 packages:
 

@@ -1,8 +1,9 @@
-import { type FC, useState } from "react";
+import { type FC, useState, useEffect } from "react";
 import type { AppSpecs } from "@customTypes";
 import { Typography } from "@mui/material";
 import "./App.css";
 import { useQuery } from "react-query";
+import socket from "./client/socket-client";
 
 type Props = {
 	name?: string;
@@ -10,8 +11,6 @@ type Props = {
 
 export const App: FC<Props> = (props) => {
 	const { name } = props;
-	console.log(name);
-
 	const [count, setCount] = useState(0);
 	const {
 		isLoading,
@@ -20,6 +19,10 @@ export const App: FC<Props> = (props) => {
 	} = useQuery<AppSpecs>("appSpecs", () =>
 		fetch("http://localhost:3002/appSpecs").then((res) => res.json())
 	);
+
+	useEffect(()=>{
+		socket.init();
+	}, []);
 
 	const handleClick = () => {
 		setCount((count) => count + 1);
@@ -41,6 +44,7 @@ export const App: FC<Props> = (props) => {
 			<div className="card">
 				<button onClick={handleClick}>count is {count}</button>
 			</div>
+
 		</div>
 	);
 };

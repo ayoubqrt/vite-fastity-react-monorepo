@@ -18,12 +18,6 @@ rules:
   quotes:
     - error
     - double
-  linebreak-style:
-    - error
-    - unix
-  indent:
-    - error
-    - tab
   func-style:
     - error
     - declaration

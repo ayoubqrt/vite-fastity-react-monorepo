@@ -62,6 +62,8 @@ jobs:
       #   uses: azure/login@v1
       #   with:
       #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Install dependencies
+        run: pnpm install --ignore-scripts --frozen-lockfile
 
       - uses: azure/docker-login@v1
         with:
@@ -82,9 +84,6 @@ jobs:
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           name: neighbook_backend
           location: "france central"
-
-      # - name: Install dependencies
-      #   run: pnpm install --ignore-scripts --frozen-lockfile
 
       # - name: Build Docker images of affected projects
       #   run: pnpm affected:docker --configuration=production

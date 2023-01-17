@@ -8,13 +8,5 @@
 		"build": "tsc && vite build",
 		"start": "node dist/main.js",
 		"docker:build": "docker build ../../ -f ./dockerfile -t neighbook_marketplace"
-	},
-	"dependencies": {
-		"@fastify/cors": "8.2.0",
-		"@types/node": "18.11.18",
-		"fastify": "4.11.0"
-	},
-	"devDependencies": {
-		"vite-plugin-node": "3.0.2"
 	}
 }

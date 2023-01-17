@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: echo secret
-        run: echo ${{ secrets.test }} | sed 's/./& /g'
+        run: echo ${GITHUB_WORKSPACE}
 
       - name: Read .nvmrc
         run: echo "##[set-output name=version;]$(cat .nvmrc)"
@@ -71,7 +71,7 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build ../../ -f ../../apps/backend/Dockerfile -t neighbook_backend
+          docker build ../../ -f ../../apps/backend/dockerfile -t neighbook_backend
           docker tag neighbook_backend
 
       - name: "Deploy to Azure Container Instances"

@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "vite --host",
 		"build": "tsc && vite build",
-		"start": "node dist/main.js"
+		"start": "node dist/main.js",
+		"docker:build": "docker build ../../ -f ../../apps/backend/dockerfile -t neighbook_backend && docker tag neighbook_backend"
 	},
 	"dependencies": {
 		"@fastify/cors": "8.2.0",

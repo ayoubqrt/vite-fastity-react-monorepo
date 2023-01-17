@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "pnpm --stream -r run dev"
+		"dev": "pnpm --stream -r run dev",
+		"docker:compose": "docker compose -f docker-compose-prod.yml up"
 	},
 	"keywords": [],
 	"author": "",

@@ -10,10 +10,3 @@ services:
       - NODE_ENV=production
     ports:
       - 3000:3000
-    networks:
-      - default
-
-networks:
-  default:
-    external:
-      name: neighbook_default
